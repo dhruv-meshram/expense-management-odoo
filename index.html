@@ -1,1 +1,151 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Management System - Hackathon</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+    <header id="main-header">
+        <h1>Odoo Expense Manager</h1>
+        <div id="user-info" style="display: none;">
+            <span id="user-role-display" class="user-badge"></span>
+            <button onclick="logout()" class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <main id="app-container">
+
+        <section id="login-view" class="view active">
+            <h2>Sign In to Your Account</h2>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <label for="username">Work Email:</label>
+                <input type="email" id="username" required value="admin@company.com">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required value="password">
+                <button type="submit" class="primary-btn">Login</button>
+                <p class="quick-test-info">
+                    Test Accounts: 
+                    <span class="status-Pending">employee@company.com</span>, 
+                    <span class="status-Approved">manager@company.com</span>, 
+                    <span class="status-Rejected">director@company.com</span>, 
+                    admin@company.com
+                </p>
+            </form>
+        </section>
+
+        <section id="employee-view" class="view">
+            <h2 class="view-title">Employee Dashboard</h2>
+            <nav class="sub-nav">
+                <button onclick="showEmployeeTab('submission')" id="tab-submission" class="active-nav">Submit Expense</button>
+                <button onclick="showEmployeeTab('history')" id="tab-history">My Expenses</button>
+            </nav>
+
+            <div id="employee-submission" class="employee-tab tab-content active-tab">
+                <h3>New Expense Submission</h3>
+                <form id="expense-form" onsubmit="submitExpense(event)">
+                    <label for="expense-amount">Amount (Can be different currency):</label>
+                    <input type="number" id="expense-amount" required step="0.01">
+
+                    <label for="expense-category">Category:</label>
+                    <select id="expense-category" required>
+                        <option value="">Select Category</option>
+                        <option value="travel">Travel</option>
+                        <option value="food">Food</option>
+                        <option value="supplies">Office Supplies</option>
+                    </select>
+
+                    <div class="form-row">
+                        <label for="expense-date">Date:</label>
+                        <input type="date" id="expense-date" required>
+                    </div>
+
+                    <label for="expense-desc">Description:</label>
+                    <textarea id="expense-desc" required></textarea>
+
+                    <div class="ocr-feature">
+                        <h4>Receipt Scan Mock</h4>
+                        <input type="file" id="receipt-upload" accept="image/*" onchange="mockOcrScan(this.files[0])">
+                        <small>Upload receipt to auto-fill fields</small>
+                    </div>
+                    
+                    <button type="submit" class="primary-btn submit-lg">Submit Expense Claim</button>
+                </form>
+            </div>
+
+            <div id="employee-history" class="employee-tab tab-content">
+                <h3>My Expense History</h3>
+                <table id="history-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="manager-admin-view" class="view">
+            <h2 id="manager-admin-title" class="view-title">Approvals Dashboard</h2>
+            <nav class="sub-nav">
+                <button id="nav-approvals" onclick="showManagerTab('approvals')" class="active-nav">Pending Approvals</button>
+                <button id="nav-admin" onclick="showManagerTab('users')" style="display: none;">User Management</button>
+                <button id="nav-rules" onclick="showManagerTab('rules')" style="display: none;">Approval Rules</button>
+            </nav>
+            
+            <div id="manager-approvals" class="manager-tab tab-content active-tab">
+                <h3>Expenses Waiting for Your Review</h3>
+                <table id="approval-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount (Local Currency)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+
+            <div id="admin-users" class="manager-tab tab-content">
+                <h3>User Management</h3>
+                </div>
+
+            <div id="admin-rules" class="manager-tab tab-content">
+                <h3>Approval Workflow Configuration</h3>
+                </div>
+        </section>
+
+        <div id="approval-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h4>Review Expense #<span id="modal-expense-id"></span></h4>
+                <div id="modal-details"></div>
+                <div class="modal-actions">
+                    <textarea id="modal-comment" placeholder="Add comments (optional)"></textarea>
+                    <button class="action-btn approve-btn" onclick="processApproval('Approved')">Approve</button>
+                    <button class="action-btn reject-btn" onclick="processApproval('Rejected')">Reject</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="api/mock-data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/employee.js"></script>
+    <script src="js/manager.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
