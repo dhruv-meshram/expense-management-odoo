@@ -11,8 +11,9 @@
 </head>
 <body>
 
-    <header style="background-color: var(--color-surface); padding: 1.5rem 0; text-align: center; border-bottom: 1px solid var(--color-border);">
+    <header style="background-color: var(--color-surface); padding: 1.5rem 0; text-align: center; border-bottom: 1px solid var(--color-border); position: relative;">
         <h1 style="font-size: 1.8rem; color: var(--color-primary);">Expense Manager</h1>
+        <button id="theme-toggle" class="logout-btn" style="position: absolute; top: 50%; right: 2rem; transform: translateY(-50%); padding: 8px 12px; font-size: 1.2rem; line-height: 1;">☀️</button>
     </header>
 
     <main id="app-container" style="padding-top: 50px;">
@@ -56,5 +57,6 @@
     <script src="public/js/services/auth.service.js"></script>
     <script src="public/js/main.js"></script>
     <script src="public/js/views/login.view.js"></script>
+    <script src="public/js/theme.js"></script>
 </body>
 </html>

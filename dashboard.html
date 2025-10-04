@@ -14,6 +14,7 @@
 <body style="padding-top: 0;"> <header id="main-header" style="position: sticky; top: 0; z-index: 1000; height: var(--header-height);">
         <h1><a href="#" style="color: var(--color-primary); text-decoration: none;">Expense Manager</a></h1>
         <div id="user-info">
+            <button id="theme-toggle" class="logout-btn" style="padding: 8px 12px; font-size: 1.2rem; line-height: 1;">☀️</button>
             <span id="user-role-display" class="user-badge"></span>
             <button onclick="AuthService.logout()" class="logout-btn">Logout</button>
         </div>
@@ -123,7 +124,7 @@
                     <button onclick="DashboardView.showEmployeeTab('history')" id="tab-history">My Expenses</button>
                 </nav>
 
-                <div id="employee-submission" class="employee-tab tab-content active-tab" style="max-width: 600px;">
+                <div id="employee-submission" class="employee-tab tab-content active-tab" style="max-width: 600px; margin: 0 auto;">
                     <h3>New Expense Submission</h3>
                     <form id="expense-form" class="card"> <div class="ocr-feature">
                             <h4>Receipt Scan Mock</h4>
@@ -278,5 +279,6 @@
     <script src="public/js/main.js"></script>
     <script src="public/js/views/dashboard.view.js"></script>
     <script src="public/js/views/approvalRules.view.js"></script>
+    <script src="public/js/theme.js"></script>
 </body>
 </html>
