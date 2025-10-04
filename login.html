@@ -3,35 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - Expense Manager</title>
+    <title>Secure Login - Expense Approval System</title>
     
     <link rel="stylesheet" href="public/assets/styles/main.css">
     <link rel="stylesheet" href="public/assets/styles/components.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <header id="main-header">
-        <h1>Odoo Expense Manager</h1>
-        <div id="user-info"></div>
+    <header style="background-color: var(--color-surface); padding: 1.5rem 0; text-align: center; border-bottom: 1px solid var(--color-border);">
+        <h1 style="font-size: 1.8rem; color: var(--color-primary);">Expense Manager</h1>
     </header>
 
-    <main id="app-container">
-
-        <section id="login-view" class="view active" style="max-width: 500px; margin: 50px auto;">
-            <h2>Sign In to Your Account</h2>
+    <main id="app-container" style="padding-top: 50px;">
+        
+        <section id="login-view" class="view active card" style="max-width: 420px; margin: 0 auto; padding: 40px;">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #212529;">Sign In</h2>
+            
             <form id="login-form">
-                <label for="username">Work Email:</label>
-                <input type="email" id="username" required value="employee@company.com">
-                <label for="password">Password:</label>
-                <input type="password" id="password" required value="password">
-                <button type="submit" class="primary-btn">Login</button>
-                <p style="margin-top: 20px; text-align: center;">
-                    New Company? <a href="signup.html">Create Admin Account</a>
+                <div class="form-group">
+                    <label for="username" class="form-label">Work Email:</label>
+                    <input type="email" id="username" class="form-control" required value="employee@company.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" id="password" class="form-control" required value="password">
+                </div>
+                
+                <button type="submit" class="primary-btn submit-lg" style="margin-top: 10px;">
+                    Log In
+                </button>
+                
+                <p style="margin-top: 25px; text-align: center; font-size: 0.95rem;">
+                    New Company? <a href="signup.html" style="font-weight: 600;">Create Admin Account</a>
                 </p>
             </form>
-            <p class="quick-test-info">
-                Test Accounts: <span class="status-Approved">employee@company.com</span>, <span class="status-Approved">manager@company.com</span>, <span class="status-Approved">admin@company.com</span> (Password: password for all)
+
+            <p class="quick-test-info" style="margin-top: 30px;">
+                <span style="font-weight: 600;">Test Accounts:</span> employee, manager, admin (Password: password for all)
             </p>
+            
             <div id="message-area" class="message-area"></div>
         </section>
 
@@ -40,12 +52,9 @@
     <script src="public/js/utils/config.js"></script>
     <script src="public/js/utils/auth.utils.js"></script>
     <script src="public/js/utils/helpers.js"></script>
-
     <script src="public/js/services/api.service.js"></script>
     <script src="public/js/services/auth.service.js"></script>
-    
     <script src="public/js/main.js"></script>
-    
     <script src="public/js/views/login.view.js"></script>
 </body>
 </html>

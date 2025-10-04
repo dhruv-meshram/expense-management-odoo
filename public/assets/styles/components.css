@@ -1,38 +1,53 @@
-/* public/assets/styles/components.css */
+/* public/assets/styles/components.css (MODIFIED FOR UX/DESIGN) */
 
-/* --- 1. Buttons --- */
+/* Assuming main.css defined these variables:
+   --color-primary, --color-success, --color-danger, --color-secondary, --color-text
+   --color-surface, --color-border, --border-radius, --box-shadow-light
+*/
+
+/* --- 1. Buttons (UX Enhancement: Consistent look, better spacing, subtle shadow) --- */
+
+/* Base button styles applied to all action buttons */
 .primary-btn,
 .logout-btn,
-.action-btn {
-    padding: 0.75rem 1.5rem;
+.action-btn,
+.approve-btn,
+.reject-btn {
+    padding: 10px 20px; /* Increased padding */
     border: none;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     font-size: 1rem;
-    transition: background-color 0.2s, box-shadow 0.2s;
+    transition: all 0.2s ease-in-out;
     font-weight: 500;
     text-align: center;
+    text-transform: capitalize; /* Cleaner look */
 }
 
+/* Primary Button (Main CTA - Login/Submit) */
 .primary-btn {
-    background-color: var(--primary-color);
-    color: white;
-    margin-top: 1rem;
+    background-color: var(--color-primary);
+    color: var(--color-surface);
+    margin-top: 1.5rem; /* Increased margin */
     width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Subtle primary shadow */
 }
 
 .primary-btn:hover {
     background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
 }
 
 .submit-lg {
-    padding: 1rem;
+    padding: 14px 24px; /* Slightly larger padding */
     font-size: 1.1rem;
+    font-weight: 600;
 }
 
+/* Logout Button (Secondary/Neutral) */
 .logout-btn {
-    background-color: var(--secondary-color);
-    color: white;
+    background-color: var(--color-secondary);
+    color: var(--color-surface);
     padding: 8px 15px;
 }
 
@@ -40,25 +55,41 @@
     background-color: #5a6268;
 }
 
+/* Approve Button (Success) */
 .approve-btn {
-    background-color: var(--success-color);
-    color: white;
+    background-color: var(--color-success);
+    color: var(--color-surface);
 }
 
 .approve-btn:hover {
     background-color: #1e7e34;
 }
 
+/* Reject Button (Danger) */
 .reject-btn {
-    background-color: var(--danger-color);
-    color: white;
+    background-color: var(--color-danger);
+    color: var(--color-surface);
 }
 
 .reject-btn:hover {
     background-color: #bd2130;
 }
 
-/* --- 2. User Info/Badges --- */
+/* Specific Action Button (Used in tables/lists) */
+.action-btn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    border: 1px solid var(--color-border);
+}
+.action-btn:hover {
+    background-color: #f0f8ff;
+    color: #0056b3;
+    border-color: #007bff;
+}
+
+/* --- 2. User Info/Badges (UX Enhancement: Softer badge) --- */
 #user-info {
     display: flex;
     align-items: center;
@@ -66,137 +97,176 @@
 }
 
 .user-badge {
-    background-color: #e9ecef;
-    color: var(--text-color);
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    background-color: var(--color-border); /* Use lighter color */
+    color: var(--color-text);
+    padding: 6px 12px;
+    border-radius: 25px; /* Fully rounded pill shape */
+    font-size: 0.85rem;
+    font-weight: 500;
 }
 
-/* --- 3. Message Area --- */
+/* --- 3. Message Area (UX Enhancement: Clearer contrast, subtle border) --- */
 .message-area {
-    padding: 1rem;
-    margin-top: 1rem;
-    border-radius: 4px;
-    font-weight: 600;
-    display: none; /* Hidden by default */
+    padding: 1rem 1.5rem; /* Increased horizontal padding */
+    margin-top: 1.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    display: none;
+    border-left: 5px solid; /* Stronger visual cue */
 }
 
 .message-error {
-    background-color: #f8d7da;
-    color: var(--danger-color);
-    border: 1px solid #f5c6cb;
+    background-color: #fcece0; /* Lighter background */
+    color: #a03c46; /* Slightly darker text for readability */
+    border-color: var(--color-danger);
 }
 
 .message-success {
-    background-color: #d4edda;
-    color: var(--success-color);
-    border: 1px solid #c3e6cb;
+    background-color: #e3f2e4;
+    color: #1a6f2c;
+    border-color: var(--color-success);
 }
 
 .message-info {
-    background-color: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
+    background-color: #e6f1f4;
+    color: #0d6e7f;
+    border-color: var(--color-primary);
 }
 
 .quick-test-info {
-    background-color: #fff3cd;
-    color: #856404;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ffeeba;
+    background-color: #fff8e1; /* Lighter yellow */
+    color: #8f6c00;
+    padding: 12px 15px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ffe8b5;
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
 }
 
-/* --- 4. Data Tables --- */
+/* --- 4. Data Tables (UX Enhancement: Cleaner look, white background, better padding) --- */
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 1.5rem;
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    overflow: hidden; /* Important for rounding corners */
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08); /* Better table lift */
 }
 
 .data-table thead th {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 1rem;
+    background-color: var(--color-primary);
+    color: var(--color-surface);
+    padding: 1.25rem 1rem; /* Increased vertical padding */
     text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
 
 .data-table tbody td {
     padding: 1rem;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--color-border);
     vertical-align: middle;
 }
 
-.data-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
+.data-table tbody tr:last-child td {
+    border-bottom: none; /* Clean bottom edge */
 }
 
-/* Status Colors in Table */
-.status-Pending {
-    color: var(--warning-color);
+.data-table tbody tr:nth-child(even) {
+    background-color: #fbfbfb; /* Very subtle alternating row color */
+}
+
+.data-table tbody tr:hover {
+    background-color: #f0f8ff; /* Subtle hover effect */
+}
+
+/* Status Colors in Table - Use badges for better visibility */
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
     font-weight: 600;
+}
+
+.status-Pending {
+    background-color: #fff3cd;
+    color: #856404;
 }
 
 .status-Approved {
-    color: var(--success-color);
-    font-weight: 600;
+    background-color: #d4edda;
+    color: #155724;
 }
 
 .status-Rejected {
-    color: var(--danger-color);
-    font-weight: 600;
+    background-color: #f8d7da;
+    color: #721c24;
 }
 
-
-/* --- 5. Modals (Approval & Rule Configuration) --- */
+/* --- 5. Modals (UX Enhancement: Better centering, modern shadow) --- */
+/* --- 5. Modals (UX Enhancement: Better centering, modern shadow) --- */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; 
-    z-index: 2000; 
+    /* Critical: Hide the modal by default */
+    display: none; 
+    
+    position: fixed;
+    z-index: 2000;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0,0,0,0.4); 
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6); /* Darker backdrop */
+
+    /* The centering styles should ONLY apply when JS sets display: flex */
+    align-items: center; 
+    justify-content: center; 
 }
+/* ... rest of your CSS file remains the same ... */
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 10% auto; /* 10% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; 
-    max-width: 500px;
-    border-radius: 8px;
+    background-color: var(--color-surface);
+    /* margin: 10% auto; - Removed for flex centering */
+    padding: 30px; /* Increased padding */
+    border: none; /* No ugly border */
+    width: 90%;
+    max-width: 550px; /* Slightly wider modal */
+    border-radius: 10px;
     position: relative;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25); /* Stronger, modern shadow */
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #888;
+    font-size: 30px;
+    font-weight: normal;
+    line-height: 1;
+    transition: color 0.2s;
 }
 
 .close-btn:hover,
 .close-btn:focus {
-    color: var(--text-color);
+    color: var(--color-danger);
     text-decoration: none;
     cursor: pointer;
 }
 
 .modal-actions {
     display: flex;
-    gap: 10px;
-    margin-top: 15px;
+    gap: 15px; /* Increased gap */
+    margin-top: 25px;
 }
 
 .modal-actions .action-btn {
@@ -207,28 +277,53 @@
 .modal-actions textarea {
     width: 100%;
     margin-bottom: 0;
+    min-height: 80px; /* Smaller for modal use */
+    padding: 10px;
 }
 
-/* Checkbox Style for Approval Rules */
+/* Checkbox Style for Approval Rules (Slightly improved) */
 .checkbox-container {
+    display: flex;
+    align-items: center;
     user-select: none;
-    padding-left: 0; 
+    padding-left: 0;
     margin-top: 10px;
 }
 
 .checkbox-container input[type="checkbox"] {
+    appearance: none; /* Hide default checkbox */
     width: 20px;
     height: 20px;
-    margin-right: 5px;
-    vertical-align: middle;
+    margin-right: 10px;
+    border: 2px solid var(--color-border);
+    border-radius: 4px;
     cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
 }
 
-/* --- 6. OCR Mock Feature --- */
+.checkbox-container input[type="checkbox"]:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.checkbox-container input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* --- 6. OCR Mock Feature (UX Enhancement: Clearer visual container) --- */
 .ocr-feature {
-    padding: 15px;
-    border: 1px dashed var(--primary-color);
-    border-radius: 4px;
-    margin-bottom: 20px;
-    background-color: #e6f0ff;
+    padding: 20px;
+    border: 2px dashed #007bff; /* Stronger dashed border */
+    border-radius: var(--border-radius);
+    margin-bottom: 25px;
+    background-color: #f0f7ff; /* Very light blue background */
+    text-align: center;
+    color: #0056b3;
 }
