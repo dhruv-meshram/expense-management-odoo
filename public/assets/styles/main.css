@@ -1,0 +1,165 @@
+/* public/assets/styles/main.css */
+
+/* --- 1. Global Variables & Reset --- */
+:root {
+    --primary-color: #007bff; /* Odoo blue-like */
+    --secondary-color: #6c757d; /* Gray */
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --background-color: #f8f9fa;
+    --text-color: #343a40;
+    --border-color: #dee2e6;
+    --header-height: 60px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    padding-top: var(--header-height); /* Space for fixed header */
+}
+
+/* --- 2. Typography & Form Elements --- */
+h1, h2, h3, h4, h5 {
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+
+/* --- 3. Layout and Header --- */
+#main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+}
+
+#main-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+#app-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- 4. Utility Classes --- */
+.view {
+    display: none;
+    padding: 1rem 0;
+}
+
+.view.active {
+    display: block;
+}
+
+.view-title {
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* --- 5. Navigation --- */
+.sub-nav {
+    display: flex;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sub-nav button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--secondary-color);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.sub-nav button:hover {
+    color: var(--primary-color);
+}
+
+.sub-nav button.active-nav {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+    font-weight: 600;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active-tab {
+    display: block;
+}
+
+/* --- 6. Responsive Design --- */
+@media (max-width: 768px) {
+    #main-header {
+        padding: 0 1rem;
+    }
+    #main-header h1 {
+        font-size: 1.2rem;
+    }
+    #app-container {
+        padding: 1rem;
+    }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Sign Up - Expense Manager</title>
+    <link rel="stylesheet" href="public/assets/styles/main.css">
+    <link rel="stylesheet" href="public/assets/styles/components.css">
+</head>
+<body>
+
+    <header id="main-header">
+        <h1>Odoo Expense Manager</h1>
+    </header>
+
+    <main id="app-container">
+
+        <section id="signup-view" class="view active" style="max-width: 500px; margin: 50px auto;">
+            <h2>Company Admin Sign Up</h2>
+            <p class="quick-test-info">This will create a new Company and the first Admin user with its currency set.</p>
+            <form id="signup-form">
+                <label for="company-name">Company Name:</label>
+                <input type="text" id="company-name" required value="Alpha Corp">
+                
+                <label for="admin-email">Admin Email (Username):</label>
+                <input type="email" id="admin-email" required value="newadmin@alpha.com">
+
+                <label for="admin-password">Password:</label>
+                <input type="password" id="admin-password" required value="password">
+
+                <label for="country-select">Select Company Country (Sets Currency):</label>
+                <select id="country-select" required>
+                    <option value="">Loading Countries...</option>
+                </select>
+
+                <button type="submit" class="primary-btn submit-lg">Create Company & Admin</button>
+                <p style="margin-top: 15px; text-align: center;">
+                    <a href="login.html">Back to Login</a>
+                </p>
+            </form>
+            <div id="message-area" class="message-area"></div>
+        </section>
+
+    </main>
+
+    <script src="public/js/utils/config.js"></script>
+    <script src="public/js/utils/auth.utils.js"></script>
+    <script src="public/js/utils/helpers.js"></script>
+
+    <script src="public/js/services/api.service.js"></script>
+    <script src="public/js/services/auth.service.js"></script>
+    
+    <script src="public/js/main.js"></script>
+    <script src="public/js/views/signup.view.js"></script>
+</body>
+</html>

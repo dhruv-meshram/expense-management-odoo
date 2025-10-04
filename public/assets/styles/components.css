@@ -1,0 +1,234 @@
+/* public/assets/styles/components.css */
+
+/* --- 1. Buttons --- */
+.primary-btn,
+.logout-btn,
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    font-weight: 500;
+    text-align: center;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: white;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+
+.submit-lg {
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+.logout-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 8px 15px;
+}
+
+.logout-btn:hover {
+    background-color: #5a6268;
+}
+
+.approve-btn {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.approve-btn:hover {
+    background-color: #1e7e34;
+}
+
+.reject-btn {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.reject-btn:hover {
+    background-color: #bd2130;
+}
+
+/* --- 2. User Info/Badges --- */
+#user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-badge {
+    background-color: #e9ecef;
+    color: var(--text-color);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* --- 3. Message Area --- */
+.message-area {
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 4px;
+    font-weight: 600;
+    display: none; /* Hidden by default */
+}
+
+.message-error {
+    background-color: #f8d7da;
+    color: var(--danger-color);
+    border: 1px solid #f5c6cb;
+}
+
+.message-success {
+    background-color: #d4edda;
+    color: var(--success-color);
+    border: 1px solid #c3e6cb;
+}
+
+.message-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.quick-test-info {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ffeeba;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* --- 4. Data Tables --- */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.data-table thead th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+}
+
+.data-table tbody td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Status Colors in Table */
+.status-Pending {
+    color: var(--warning-color);
+    font-weight: 600;
+}
+
+.status-Approved {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.status-Rejected {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+
+/* --- 5. Modals (Approval & Rule Configuration) --- */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 2000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 10% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 500px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--text-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.modal-actions .action-btn {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.modal-actions textarea {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+/* Checkbox Style for Approval Rules */
+.checkbox-container {
+    user-select: none;
+    padding-left: 0; 
+    margin-top: 10px;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+/* --- 6. OCR Mock Feature --- */
+.ocr-feature {
+    padding: 15px;
+    border: 1px dashed var(--primary-color);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background-color: #e6f0ff;
+}
