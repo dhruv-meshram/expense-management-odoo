@@ -1,1 +1,48 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Management System - Hackathon</title>
+    <link rel="stylesheet" href="public/assets/styles/main.css">
+    <link rel="stylesheet" href="public/assets/styles/components.css">
+</head>
+<body>
+
+    <div style="padding: 50px; text-align: center;">
+        <h2>Loading Application...</h2>
+        <p>You should be redirected shortly.</p>
+    </div>
+
+    <script src="public/js/utils/config.js"></script>
+    <script src="public/js/utils/auth.utils.js"></script>
+    <script src="public/js/utils/helpers.js"></script>
+
+    <script src="public/js/services/api.service.js"></script>
+    <script src="public/js/services/auth.service.js"></script>
+    <script src="public/js/services/expense.service.js"></script>
+    <script src="public/js/services/admin.service.js"></script>
+    
+    <script src="public/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if AuthUtils is available and if a user is logged in
+            if (typeof AuthUtils !== 'undefined') {
+                const user = AuthUtils.getCurrentUser();
+                if (user) {
+                    // If user is logged in, redirect to dashboard
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // If not logged in, redirect to login
+                    window.location.href = 'login.html';
+                }
+            } else {
+                console.error("AuthUtils not loaded. Check script paths!");
+                // Optionally redirect to login as a fail-safe
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+</body>
+</html>

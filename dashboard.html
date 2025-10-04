@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Management System - Dashboard</title>
+    
+    <link rel="stylesheet" href="public/assets/styles/main.css">
+    <link rel="stylesheet" href="public/assets/styles/components.css">
+</head>
+<body>
+
+    <header id="main-header">
+        <h1>Odoo Expense Manager</h1>
+        <div id="user-info">
+            <span id="user-role-display" class="user-badge"></span>
+            <button onclick="AuthService.logout()" class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <main id="app-container">
+        <div id="message-area" class="message-area"></div>
+        
+        <section id="admin-setup-view" class="view">
+            <h2 id="setup-title">Company Setup - Users</h2>
+            <p class="quick-test-info">
+                Company: <strong id="setup-company-name"></strong> | Currency: <strong id="setup-company-currency"></strong>
+            </p>
+            
+            <form id="user-creation-form">
+                <h4 style="margin-bottom: 5px;">Create New User</h4>
+                <table class="data-table" style="max-width: 800px; margin-bottom: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Manager (For Employee)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" id="new-user-name" required placeholder="John Doe"></td>
+                            <td><input type="email" id="new-user-email" required placeholder="john@alpha.com"></td>
+                            <td>
+                                <select id="new-user-role" required>
+                                    <option value="Employee">Employee</option>
+                                    <option value="Manager">Manager</option>
+                                    <option value="Director">Director</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="new-user-manager-id">
+                                    <option value="">N/A (Admin/Manager)</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="primary-btn approve-btn" style="padding: 5px 10px;">Create & Email</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <h4 style="margin-top: 30px;">Existing Users</h4>
+            <table id="existing-users-table" class="data-table" style="max-width: 800px;">
+                <thead>
+                    <tr><th>Name</th><th>Email</th><th>Role</th><th>Manager</th><th>Password</th></tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+            
+            <button class="primary-btn submit-lg" style="margin-top: 30px;" onclick="window.location.href='login.html'">
+                Go to Login/Main Dashboard
+            </button>
+        </section>
+
+        <section id="employee-view" class="view">
+            <h2 class="view-title">Employee Dashboard</h2>
+            <nav class="sub-nav" id="employee-sub-nav">
+                <button onclick="DashboardView.showEmployeeTab('submission')" id="tab-submission" class="active-nav">Submit Expense</button>
+                <button onclick="DashboardView.showEmployeeTab('history')" id="tab-history">My Expenses</button>
+            </nav>
+
+            <div id="employee-submission" class="employee-tab tab-content active-tab">
+                <h3>New Expense Submission</h3>
+                <form id="expense-form">
+                    
+                    <div class="ocr-feature">
+                        <h4>Receipt Scan Mock (Additional Feature)</h4>
+                        <input type="file" id="receipt-upload" accept="image/*" onchange="ExpenseService.mockOcrScan(this.files[0])">
+                        <small>Upload receipt to auto-fill fields</small>
+                    </div>
+
+                    <label for="expense-amount">Amount:</label>
+                    <input type="number" id="expense-amount" required step="0.01">
+                    
+                    <label for="expense-currency">Currency (Submitted in):</label>
+                    <select id="expense-currency" required>
+                        <option value="">Loading...</option>
+                    </select>
+                    
+                    <label for="expense-date">Date:</label>
+                    <input type="date" id="expense-date" required>
+
+                    <label for="expense-desc">Description of Bill:</label>
+                    <textarea id="expense-desc" required placeholder="e.g., Client lunch for project X discussion"></textarea>
+                    
+                    <label for="expense-category">Category:</label>
+                    <select id="expense-category" required>
+                        <option value="">Select Category</option>
+                        <option value="travel">Travel</option>
+                        <option value="food">Food</option>
+                        <option value="supplies">Office Supplies</option>
+                    </select>
+
+                    <label for="paid-by">Paid By:</label>
+                    <select id="paid-by" required>
+                        <option value="Self">Self</option>
+                        <option value="Company Card">Company Card</option>
+                    </select>
+                    
+                    <label for="expense-remarks">Remarks (Optional):</label>
+                    <textarea id="expense-remarks" placeholder="Any specific remarks or context for the approver"></textarea>
+                                        
+                    <button type="submit" class="primary-btn submit-lg">Submit Expense Claim</button>
+                </form>
+            </div>
+
+            <div id="employee-history" class="employee-tab tab-content">
+                </div>
+        </section>
+
+        <section id="manager-admin-view" class="view">
+            <h2 id="manager-admin-title" class="view-title">Approvals Dashboard</h2>
+            <nav class="sub-nav" id="manager-sub-nav">
+                <button id="nav-approvals" onclick="DashboardView.showManagerTab('approvals')" class="active-nav">Pending Approvals</button>
+                <button id="nav-rules" onclick="DashboardView.showManagerTab('rules')" style="display: none;">Approval Rules</button>
+                <button id="nav-admin" onclick="DashboardView.showManagerTab('users')" style="display: none;">User Management</button>
+            </nav>
+            
+            <div id="manager-approvals" class="manager-tab tab-content active-tab">
+                </div>
+
+            <div id="admin-users" class="manager-tab tab-content">
+                </div>
+
+            <div id="admin-rules" class="manager-tab tab-content">
+                </div>
+        </section>
+
+        <div id="approval-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="AdminService.closeApprovalModal()">&times;</span>
+                <h4>Review Expense #<span id="modal-expense-id"></span></h4>
+                <div id="modal-details"></div>
+                <div class="modal-actions">
+                    <textarea id="modal-comment" placeholder="Add comments (optional)"></textarea>
+                    <button class="action-btn approve-btn" onclick="AdminService.processApproval('Approved')">Approve</button>
+                    <button class="action-btn reject-btn" onclick="AdminService.processApproval('Rejected')">Reject</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="rule-modal" class="modal">
+            <div class="modal-content" style="max-width: 700px;">
+                <span class="close-btn" onclick="AdminService.closeRuleModal()">&times;</span>
+                <h4>Configure Approval Rule for <span id="rule-user-name"></span></h4>
+                <form id="approval-rule-form">
+                    <input type="hidden" id="rule-user-id">
+                    
+                    <h5 style="margin-top: 20px;">Manager Precedence (Step 1)</h5>
+                    <label class="checkbox-container" style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="is-manager-approver" checked>
+                        Is the User's Manager an Approver? (If checked, they are the first approver in sequence.)
+                    </label>
+                    
+                    <h5 style="margin-top: 20px;">Approval Sequence</h5>
+                    <label class="checkbox-container" style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="is-sequential-flow" checked>
+                        Approver sequence matters? 
+                    </label>
+                    <small style="display: block; margin-top: 5px; margin-left: 25px; color: var(--secondary-color);">
+                        If checked: Sequential flow. If unchecked: Concurrent (all approve at once).
+                    </small>
+
+                    <h5 style="margin-top: 20px;">Other Required Approvers</h5>
+                    <div id="approvers-list" style="max-height: 200px; overflow-y: auto; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                    
+                    <h5 style="margin-top: 20px;">Conditional Approval Limit (Percentage Rule)</h5>
+                    <label for="min-percentage">Minimum percentage of **total selected approvers** required for auto-approval:</label>
+                    <input type="number" id="min-percentage" min="0" max="100" value="100" required style="width: 100px;"> %
+                    <small style="display: block; margin-top: 5px; color: var(--secondary-color);">
+                        If minimum percentage is met, the expense is auto-approved and stops the flow. (Set to 100% for strict flow.)
+                    </small>
+
+                    <button type="submit" class="primary-btn submit-lg" style="margin-top: 30px;">Save Approval Rule</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="public/js/utils/config.js"></script>
+    <script src="public/js/utils/auth.utils.js"></script>
+    <script src="public/js/utils/helpers.js"></script>
+    
+    <script src="public/js/services/api.service.js"></script>
+    <script src="public/js/services/auth.service.js"></script>
+    <script src="public/js/services/expense.service.js"></script>
+    <script src="public/js/services/admin.service.js"></script>
+    
+    <script src="public/js/main.js"></script>
+    <script src="public/js/views/dashboard.view.js"></script>
+    <script src="public/js/views/approvalRules.view.js"></script>
+</body>
+</html>

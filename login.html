@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Expense Manager</title>
+    
+    <link rel="stylesheet" href="public/assets/styles/main.css">
+    <link rel="stylesheet" href="public/assets/styles/components.css">
+</head>
+<body>
+
+    <header id="main-header">
+        <h1>Odoo Expense Manager</h1>
+        <div id="user-info"></div>
+    </header>
+
+    <main id="app-container">
+
+        <section id="login-view" class="view active" style="max-width: 500px; margin: 50px auto;">
+            <h2>Sign In to Your Account</h2>
+            <form id="login-form">
+                <label for="username">Work Email:</label>
+                <input type="email" id="username" required value="employee@company.com">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required value="password">
+                <button type="submit" class="primary-btn">Login</button>
+                <p style="margin-top: 20px; text-align: center;">
+                    New Company? <a href="signup.html">Create Admin Account</a>
+                </p>
+            </form>
+            <p class="quick-test-info">
+                Test Accounts: <span class="status-Approved">employee@company.com</span>, <span class="status-Approved">manager@company.com</span>, <span class="status-Approved">admin@company.com</span> (Password: password for all)
+            </p>
+            <div id="message-area" class="message-area"></div>
+        </section>
+
+    </main>
+
+    <script src="public/js/utils/config.js"></script>
+    <script src="public/js/utils/auth.utils.js"></script>
+    <script src="public/js/utils/helpers.js"></script>
+
+    <script src="public/js/services/api.service.js"></script>
+    <script src="public/js/services/auth.service.js"></script>
+    
+    <script src="public/js/main.js"></script>
+    
+    <script src="public/js/views/login.view.js"></script>
+</body>
+</html>
