@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 */
 :root {
-    /* Color Palette */
+    /* Color Palette - LIGHT THEME (Default) */
     --color-primary: #007BFF; /* Trustworthy Blue */
     --color-secondary: #6c757d; /* Neutral Gray */
     --color-success: #28A745;
@@ -16,7 +16,12 @@
     --color-background: #F8F9FA; /* Soft App Background */
     --color-surface: #FFFFFF; /* Card/Modal Background */
     --color-text: #343A40; /* High Contrast Text */
+    --color-heading: #212529; /* Darker heading text */
+    --color-label: #555; /* Label text */
     --color-border: #EAECEF; /* Lighter, subtle borders */
+    
+    /* NEW: Surface color for subtle hovers/active states in LIGHT mode */
+    --color-surface-hover: #F0F0F0; 
 
     /* Typography */
     --font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -27,6 +32,34 @@
     --border-radius: 6px; /* Subtle rounding for modern look */
     --box-shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft lift for key elements */
 }
+
+/*
+|--------------------------------------------------------------------------
+| 1.1. Dark Theme Overrides
+|--------------------------------------------------------------------------
+*/
+.dark-theme {
+    /* Color Palette - DARK THEME */
+    --color-primary: #5BC0DE; /* Lighter Blue */
+    --color-secondary: #ADB5BD; /* Lighter Gray */
+    --color-success: #2ECC71;
+    --color-danger: #E74C3C;
+    --color-warning: #F1C40F;
+
+    --color-background: #121212; /* Very dark background */
+    --color-surface: #1E1E1E; /* Dark Card/Modal Background */
+    --color-text: #F0F0F0; /* Light text */
+    --color-heading: #FFFFFF; /* White heading text */
+    --color-label: #BBBBBB; /* Lighter label text */
+    --color-border: #444444; /* Darker borders */
+    
+    /* FIX: Darker hover color to provide contrast against light text */
+    --color-surface-hover: #3a3a3a; 
+    
+    /* Adjust shadow for dark theme visibility (Optional: often set to none or subtle) */
+    --box-shadow-light: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
 
 /* Base Reset */
 *, *::before, *::after {
@@ -39,16 +72,18 @@ body {
     font-family: var(--font-family-base);
     font-size: 16px;
     line-height: 1.6;
-    color: var(--color-text);
-    background-color: var(--color-background);
+    color: var(--color-text); /* Uses theme color */
+    background-color: var(--color-background); /* Uses theme color */
     padding-top: var(--header-height);
-    -webkit-font-smoothing: antialiased; /* Better text rendering */
+    -webkit-font-smoothing: antialiased;
+    /* Smooth transition for theme change */
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* --- 2. Typography & Form Elements (UX Enhancement: Cleaner fields, better focus) --- */
 h1, h2, h3, h4, h5 {
-    margin-bottom: calc(var(--spacing-unit) * 3); /* Increased spacing */
-    color: #212529;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    color: var(--color-heading); /* Uses theme color */
     line-height: 1.2;
     font-weight: 600;
 }
@@ -57,8 +92,8 @@ label {
     display: block;
     margin-top: calc(var(--spacing-unit) * 2);
     margin-bottom: var(--spacing-unit);
-    font-weight: 500; /* Slightly less bold */
-    color: #555;
+    font-weight: 500;
+    color: var(--color-label); /* Uses theme color */
 }
 
 input[type="text"],
@@ -69,13 +104,14 @@ input[type="date"],
 select,
 textarea {
     width: 100%;
-    padding: 12px; /* Increased padding */
+    padding: 12px;
     margin-bottom: calc(var(--spacing-unit) * 3);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border); /* Uses theme color */
     border-radius: var(--border-radius);
     font-size: 1rem;
-    transition: all 0.2s; /* Smoother transitions */
-    background-color: var(--color-surface);
+    transition: all 0.2s;
+    background-color: var(--color-surface); /* Uses theme color */
+    color: var(--color-text); /* Uses theme color */
 }
 
 input:focus,
@@ -83,8 +119,13 @@ select:focus,
 textarea:focus {
     border-color: var(--color-primary);
     outline: none;
-    /* Softened box-shadow */
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); 
+}
+.dark-theme input:focus,
+.dark-theme select:focus,
+.dark-theme textarea:focus {
+    /* Adjust focus shadow for dark theme visibility */
+    box-shadow: 0 0 0 3px rgba(91, 192, 222, 0.3);
 }
 
 textarea {
@@ -99,13 +140,13 @@ textarea {
     left: 0;
     width: 100%;
     height: var(--header-height);
-    background-color: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-surface); /* Uses theme color */
+    border-bottom: 1px solid var(--color-border); /* Uses theme color */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 3rem; /* Increased padding */
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Slightly cleaner header shadow */
+    padding: 0 3rem;
+    box-shadow: var(--box-shadow-light); /* Uses theme shadow variable */
     z-index: 1000;
 }
 
@@ -116,9 +157,41 @@ textarea {
     font-weight: 700;
 }
 
+#user-info {
+    display: flex;
+    align-items: center;
+}
+
+/* Theme Toggle Button Specific Style */
+.btn-theme-toggle {
+    background-color: var(--color-secondary);
+    color: var(--color-surface); 
+    padding: 8px 12px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 15px;
+    transition: all 0.2s;
+}
+
+.btn-theme-toggle:hover {
+    background-color: #5a6268; 
+}
+
+.dark-theme .btn-theme-toggle {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+}
+
+.dark-theme .btn-theme-toggle:hover {
+    background-color: #3e8ca8;
+}
+
+
 #app-container {
-    padding: 3rem; /* Increased overall container padding */
-    max-width: 1280px; /* Slightly wider max-width */
+    padding: 3rem;
+    max-width: 1280px;
     margin: 0 auto;
 }
 
@@ -146,6 +219,11 @@ textarea {
     background-color: #0056b3;
     border-color: #0056b3;
 }
+.dark-theme .btn-primary:hover {
+    background-color: #3e8ca8;
+    border-color: #3e8ca8;
+}
+
 
 .btn-success {
     color: var(--color-surface);
@@ -157,15 +235,36 @@ textarea {
     border-color: #1e7e34;
 }
 
+.btn-danger {
+    color: var(--color-surface);
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+.btn-danger:hover {
+    background-color: #a71d2a;
+    border-color: #a71d2a;
+}
+
+
 /* --- 5. Component Styles: Cards (NEW - For data visualization) --- */
 .card {
-    background-color: var(--color-surface);
-    border-radius: calc(var(--border-radius) + 2px); /* Slightly more rounded */
-    box-shadow: var(--box-shadow-light);
+    background-color: var(--color-surface); /* Uses theme color */
+    border-radius: calc(var(--border-radius) + 2px);
+    box-shadow: var(--box-shadow-light); /* Uses theme shadow variable */
     padding: calc(var(--spacing-unit) * 4);
     margin-bottom: calc(var(--spacing-unit) * 4);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border); /* Uses theme color */
+    /* Add transition for smooth card background change */
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
+
+/* FIX: Generic Table Row Hover Style */
+.data-table tbody tr:hover {
+    /* FIX: Use the new hover variable which is defined differently in dark mode */
+    background-color: var(--color-surface-hover); 
+    cursor: pointer;
+}
+
 
 /* --- 6. Utility Classes & Tab Navigation (UX Enhancement: Cleaner tabs) --- */
 .view {
@@ -179,7 +278,7 @@ textarea {
 
 .view-title {
     /* Use h1/h2 instead, but keep this for compatibility */
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border); /* Uses theme color */
     padding-bottom: var(--spacing-unit);
     margin-bottom: calc(var(--spacing-unit) * 4);
     font-size: 1.75rem;
@@ -189,17 +288,17 @@ textarea {
 .sub-nav {
     display: flex;
     margin-bottom: calc(var(--spacing-unit) * 4);
-    border-bottom: 1px solid var(--color-border);
-    overflow-x: auto; /* Allow horizontal scrolling on small screens */
+    border-bottom: 1px solid var(--color-border); /* Uses theme color */
+    overflow-x: auto;
 }
 
 .sub-nav button {
     background: none;
     border: none;
-    padding: 12px 20px; /* Increased vertical padding */
+    padding: 12px 20px;
     cursor: pointer;
     font-size: 1rem;
-    color: var(--color-secondary);
+    color: var(--color-secondary); /* Uses theme color */
     border-bottom: 3px solid transparent;
     transition: all 0.2s;
     white-space: nowrap;
@@ -207,7 +306,13 @@ textarea {
 
 .sub-nav button:hover {
     color: var(--color-primary);
-    border-color: rgba(0, 123, 255, 0.3); /* Subtle hint on hover */
+    /* OPTIONAL FIX: Change background color on hover for better visibility
+    background-color: var(--color-surface-hover);
+    border-color: transparent; */
+    border-color: rgba(0, 123, 255, 0.3);
+}
+.dark-theme .sub-nav button:hover {
+    border-color: rgba(91, 192, 222, 0.3); /* Adjust hover color for dark theme primary */
 }
 
 .sub-nav button.active-nav {
