@@ -27,14 +27,93 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" required value="password">
                 <button type="submit" class="primary-btn">Login</button>
-                <p class="quick-test-info">
-                    Test Accounts: 
-                    <span class="status-Pending">employee@company.com</span>, 
-                    <span class="status-Approved">manager@company.com</span>, 
-                    <span class="status-Rejected">director@company.com</span>, 
-                    admin@company.com
+                <p style="margin-top: 20px; text-align: center;">
+                    New Company? <a href="#" onclick="showView('signup-view'); return false;">Create Admin Account</a>
                 </p>
             </form>
+            <p class="quick-test-info">
+                Test Accounts: <span class="status-Approved">admin@company.com</span> (Password: password), etc.
+            </p>
+        </section>
+
+        <section id="signup-view" class="view">
+            <h2>Company Admin Sign Up</h2>
+            <p class="quick-test-info">This will create a new Company and the first Admin user with its currency set.</p>
+            <form id="signup-form" onsubmit="handleAdminSignup(event)">
+                <label for="company-name">Company Name:</label>
+                <input type="text" id="company-name" required value="Alpha Corp">
+                
+                <label for="admin-email">Admin Email (Username):</label>
+                <input type="email" id="admin-email" required value="newadmin@alpha.com">
+
+                <label for="admin-password">Password:</label>
+                <input type="password" id="admin-password" required value="password">
+
+                <label for="country-select">Select Company Country (Sets Currency):</label>
+                <select id="country-select" required>
+                    <option value="">Loading Countries...</option>
+                </select>
+
+                <button type="submit" class="primary-btn submit-lg">Create Company & Admin</button>
+                <p style="margin-top: 15px; text-align: center;">
+                    <a href="#" onclick="showView('login-view'); return false;">Back to Login</a>
+                </p>
+            </form>
+        </section>
+
+        <section id="admin-setup-view" class="view">
+            <h2 id="setup-title">Company Setup - Users</h2>
+            <p class="quick-test-info">
+                Company: <strong id="setup-company-name"></strong> | Currency: <strong id="setup-company-currency"></strong>
+            </p>
+            
+            <form id="user-creation-form" onsubmit="createUser(event)">
+                <h4 style="margin-bottom: 5px;">Create New User</h4>
+                <table class="data-table" style="max-width: 800px; margin-bottom: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Manager (For Employee)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" id="new-user-name" required placeholder="John Doe"></td>
+                            <td><input type="email" id="new-user-email" required placeholder="john@alpha.com"></td>
+                            <td>
+                                <select id="new-user-role" required>
+                                    <option value="Employee">Employee</option>
+                                    <option value="Manager">Manager</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="new-user-manager-id">
+                                    <option value="">N/A (Admin/Manager)</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="primary-btn approve-btn" style="padding: 5px 10px;">Create & Email</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <h4 style="margin-top: 30px;">Existing Users</h4>
+            <table id="existing-users-table" class="data-table" style="max-width: 800px;">
+                <thead>
+                    <tr><th>Name</th><th>Email</th><th>Role</th><th>Manager</th><th>Password</th></tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+            
+            <button class="primary-btn submit-lg" style="margin-top: 30px;" onclick="showView('login-view')">
+                Finish Setup & Go to Login
+            </button>
         </section>
 
         <section id="employee-view" class="view">
@@ -47,8 +126,20 @@
             <div id="employee-submission" class="employee-tab tab-content active-tab">
                 <h3>New Expense Submission</h3>
                 <form id="expense-form" onsubmit="submitExpense(event)">
-                    <label for="expense-amount">Amount (Can be different currency):</label>
+                    
+                    <div class="ocr-feature">
+                        <h4>Receipt Scan Mock (Additional Feature)</h4>
+                        <input type="file" id="receipt-upload" accept="image/*" onchange="mockOcrScan(this.files[0])">
+                        <small>Upload receipt to auto-fill fields</small>
+                    </div>
+
+                    <label for="expense-amount">Amount:</label>
                     <input type="number" id="expense-amount" required step="0.01">
+                    
+                    <label for="expense-currency">Currency (Submitted in):</label>
+                    <select id="expense-currency" required onchange="updateAmountDisplay()">
+                        <option value="">Loading...</option>
+                    </select>
 
                     <label for="expense-category">Category:</label>
                     <select id="expense-category" required>
@@ -58,20 +149,12 @@
                         <option value="supplies">Office Supplies</option>
                     </select>
 
-                    <div class="form-row">
-                        <label for="expense-date">Date:</label>
-                        <input type="date" id="expense-date" required>
-                    </div>
+                    <label for="expense-date">Date:</label>
+                    <input type="date" id="expense-date" required>
 
                     <label for="expense-desc">Description:</label>
                     <textarea id="expense-desc" required></textarea>
-
-                    <div class="ocr-feature">
-                        <h4>Receipt Scan Mock</h4>
-                        <input type="file" id="receipt-upload" accept="image/*" onchange="mockOcrScan(this.files[0])">
-                        <small>Upload receipt to auto-fill fields</small>
-                    </div>
-                    
+                                        
                     <button type="submit" class="primary-btn submit-lg">Submit Expense Claim</button>
                 </form>
             </div>
@@ -123,7 +206,7 @@
                 </div>
 
             <div id="admin-rules" class="manager-tab tab-content">
-                <h3>Approval Workflow Configuration</h3>
+                <h3>Approval Workflow Configuration (High-Value Feature)</h3>
                 </div>
         </section>
 
@@ -143,9 +226,9 @@
     </main>
 
     <script src="api/mock-data.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/employee.js"></script>
     <script src="js/manager.js"></script>
-    <script src="js/app.js"></script>
 </body>
 </html>

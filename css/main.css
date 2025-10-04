@@ -89,6 +89,7 @@ body {
     border-bottom: 2px solid var(--border-color);
     margin-bottom: 20px;
     display: flex;
+    flex-wrap: wrap; 
 }
 
 .sub-nav button {
@@ -100,6 +101,8 @@ body {
     color: var(--secondary-color);
     border-bottom: 3px solid transparent;
     transition: all 0.2s ease;
+    margin-right: 5px; 
+    margin-bottom: 5px; 
 }
 
 .sub-nav button.active-nav {
@@ -143,7 +146,7 @@ body {
     font-weight: 600;
 }
 
-.data-table tr:hover {
+.data-table tr:hover:not(:first-child) {
     background-color: #fcfcfc;
     cursor: pointer;
 }
@@ -179,9 +182,14 @@ body {
     .data-table thead { display: none; }
     .data-table tr, .data-table td { display: block; width: 100%; }
     .data-table td:before { 
-        content: attr(data-label); 
+        content: attr(data-label) ": "; 
         float: left; 
         font-weight: bold;
         margin-right: 10px;
+        width: 40%; 
+    }
+    .data-table td:nth-child(4) { /* Fix for action cell */
+        display: flex;
+        justify-content: space-between;
     }
 }

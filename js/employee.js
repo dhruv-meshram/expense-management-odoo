@@ -1,50 +1,94 @@
 /**
  * js/employee.js
  * Handles Employee views: submission form and expense history.
- * Depends on: mock-data.js (for fetchUserExpenses, createExpense), app.js (for currentUser, displayMessage)
+ * Includes Currency fetching/selection and the OCR mock feature.
+ * Depends on: mock-data.js, app.js
  */
+
+document.addEventListener('DOMContentLoaded', loadCurrencies);
+
+// --- Currency Fetching (For submission form) ---
+async function loadCurrencies() {
+    const currencySelect = document.getElementById('expense-currency');
+    
+    // Only fetch if necessary
+    if (currencySelect.children.length > 1 && currencySelect.children[1].value !== "") return;
+    
+    currencySelect.innerHTML = '<option value="">Loading Currencies...</option>';
+
+    const COMPANY_CURRENCY = fetchCompanyCurrency(); // Get actual company currency from mock-data
+
+    try {
+        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,currencies');
+        const countries = await response.json();
+        
+        let currencyCodes = new Set([COMPANY_CURRENCY, 'EUR', 'GBP', 'INR']); 
+        countries.forEach(country => {
+            if (country.currencies) {
+                Object.keys(country.currencies).forEach(code => currencyCodes.add(code));
+            }
+        });
+
+        currencySelect.innerHTML = '<option value="">Select Currency</option>';
+        Array.from(currencyCodes).sort().forEach(code => {
+            const option = document.createElement('option');
+            option.value = code;
+            option.textContent = code;
+            currencySelect.appendChild(option);
+        });
+
+        currencySelect.value = COMPANY_CURRENCY;
+
+    } catch (error) {
+        console.error("Failed to load currencies for employee:", error);
+        currencySelect.innerHTML = `<option value="${COMPANY_CURRENCY}">${COMPANY_CURRENCY} (Default)</option><option value="EUR">EUR</option>`;
+    }
+}
+
+function updateAmountDisplay() {
+    // Hook for real-time currency conversion
+    console.log(`Submitted currency set to: ${document.getElementById('expense-currency').value}`);
+}
 
 // --- Expense Submission ---
 
 function submitExpense(event) {
-    event.preventDefault();
+    event.preventDefault(); 
     
     // 1. Collect form data
     const expenseForm = document.getElementById('expense-form');
     const amount = parseFloat(document.getElementById('expense-amount').value);
+    const currency = document.getElementById('expense-currency').value; 
     const category = document.getElementById('expense-category').value;
     const date = document.getElementById('expense-date').value;
     const description = document.getElementById('expense-desc').value.trim();
 
-    // 2. Robust Client-side Validation (Mandatory Criteria)
-    if (isNaN(amount) || amount <= 0) {
-        displayMessage('Please enter a valid amount greater than zero.', 'error');
-        return;
-    }
-    if (!category || !date || !description) {
-        displayMessage('All fields (Category, Date, Description) are required.', 'error');
+    if (isNaN(amount) || amount <= 0 || !currency || !category || !date || !description) {
+        displayMessage('All fields are required.', 'error');
         return;
     }
     
-    // 3. Construct the payload
+    // Find employee's manager ID for the approval chain start
+    const companyUsers = fetchCompanyUsers(currentUser.companyId);
+    const employeeManager = companyUsers.find(u => u.id === currentUser.managerId);
+
     const expenseData = {
         employeeId: currentUser.id,
-        employeeName: `${currentUser.role} (${currentUser.email})`,
+        employeeName: `${currentUser.name} (${currentUser.role})`,
         amount: amount,
-        currency: 'USD', // Simplified for the mock. Use the API if time allows.
+        currency: currency,
         category: category,
         description: description,
         date: date,
+        managerId: employeeManager ? employeeManager.id : 102 // Fallback to ID 102
     };
 
-    // --- MOCK API CALL ---
     const newExpense = createExpense(expenseData);
     
-    // 4. Feedback and UI Reset
     displayMessage(`Expense ${newExpense.id} submitted successfully! Status: Pending.`, 'success');
     expenseForm.reset();
+    loadCurrencies(); 
     
-    // Automatically switch to history view to see the new expense
     showEmployeeTab('history'); 
 }
 
@@ -53,18 +97,16 @@ function submitExpense(event) {
 function mockOcrScan(file) {
     if (!file) return;
 
-    // Acknowledge the file upload and mock the processing time
     displayMessage(`Scanning receipt: ${file.name}... (Simulating OCR processing)`);
     
-    // Use a slight delay to simulate an API call
     setTimeout(() => {
-        // Mock Data extraction
-        const mockAmount = 75.50;
-        const mockDescription = "Dinner with client (Mock OCR)";
+        const mockAmount = 99.99;
+        const mockCurrency = 'EUR'; 
+        const mockDescription = "Client Dinner (OCR Scan)";
         const today = new Date().toISOString().split('T')[0];
         
-        // Populate form fields
         document.getElementById('expense-amount').value = mockAmount;
+        document.getElementById('expense-currency').value = mockCurrency; 
         document.getElementById('expense-category').value = 'food';
         document.getElementById('expense-date').value = today;
         document.getElementById('expense-desc').value = mockDescription;
@@ -77,21 +119,18 @@ function mockOcrScan(file) {
 // --- Expense History Display ---
 
 function renderEmployeeHistory() {
-    // 1. Fetch the data (Mock API Call)
     const historyData = fetchUserExpenses(currentUser.id);
     const tableBody = document.querySelector('#history-table tbody');
-    tableBody.innerHTML = ''; // Clear existing rows
+    tableBody.innerHTML = ''; 
 
     if (historyData.length === 0) {
         tableBody.innerHTML = '<tr><td colspan="4">No expenses submitted yet.</td></tr>';
         return;
     }
 
-    // 2. Loop and generate table rows (DOM manipulation)
     historyData.forEach(expense => {
         const row = tableBody.insertRow();
         
-        // Mandatory: Add data-label for mobile responsiveness
         row.insertCell(0).setAttribute('data-label', 'Date');
         row.cells[0].textContent = expense.date;
 
@@ -99,13 +138,12 @@ function renderEmployeeHistory() {
         row.cells[1].textContent = expense.description;
         
         row.insertCell(2).setAttribute('data-label', 'Amount');
-        row.cells[2].textContent = `${expense.amount.toFixed(2)} ${expense.currency}`;
+        row.cells[2].innerHTML = `<strong>${expense.amount.toFixed(2)} ${expense.currency}</strong><br><small>(${expense.localAmount.toFixed(2)} ${fetchCompanyCurrency()})</small>`;
         
         row.insertCell(3).setAttribute('data-label', 'Status');
         const statusCell = row.cells[3];
         statusCell.innerHTML = `<span class="status-${expense.status}">${expense.status}</span>`;
         
-        // Optional: Add click event to view details (not fully implemented here)
         row.onclick = () => displayMessage(`Viewing details for ${expense.id}. Status: ${expense.status}`, 'info');
     });
 }

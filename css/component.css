@@ -1,5 +1,5 @@
 /* Form Styling */
-#login-form, #expense-form {
+#login-form, #expense-form, #signup-form {
     display: grid;
     gap: 15px;
     max-width: 500px;
@@ -81,6 +81,7 @@ textarea {
     overflow: auto; 
     background-color: rgba(0,0,0,0.5); /* Semi-transparent background */
     backdrop-filter: blur(2px);
+    transition: opacity 0.3s;
 }
 
 .modal-content {

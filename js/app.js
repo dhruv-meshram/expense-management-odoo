@@ -1,4 +1,7 @@
-// --- Core Application Logic ---
+/**
+ * js/app.js
+ * Core logic: state management, view switching ("routing"), and general utilities.
+ */
 
 let currentUser = null;
 
@@ -8,6 +11,20 @@ function showView(viewId) {
     views.forEach(view => {
         if (view.id === viewId) {
             view.classList.add('active');
+            
+            // --- New View Logic ---
+            if (viewId === 'signup-view') {
+                loadCountriesForSignup(); 
+            }
+            if (viewId === 'admin-setup-view') {
+                // Ensure only admin can access this view
+                if (currentUser && currentUser.role === 'Admin') {
+                    renderAdminSetupView();
+                } else {
+                    displayMessage('Access Denied: Admin Setup only.', 'error');
+                    showView('login-view');
+                }
+            }
         } else {
             view.classList.remove('active');
         }
@@ -20,7 +37,7 @@ function updateHeader() {
 
     if (currentUser) {
         userInfoDiv.style.display = 'flex';
-        roleDisplay.textContent = currentUser.role;
+        roleDisplay.textContent = `${currentUser.role} | ${mockCompanies[currentUser.companyId].name}`;
     } else {
         userInfoDiv.style.display = 'none';
         roleDisplay.textContent = '';
@@ -31,8 +48,18 @@ function initializeApp() {
     const storedUser = sessionStorage.getItem('currentUser');
     if (storedUser) {
         currentUser = JSON.parse(storedUser);
-        updateHeader();
-        handlePostLogin(currentUser.role);
+        
+        // Re-fetch user to establish currentCompanyId context in mock-data.js
+        const reloadedUser = fetchUserByEmail(currentUser.email); 
+        
+        if (reloadedUser) {
+            currentUser = reloadedUser; // Update with full context
+            updateHeader();
+            handlePostLogin(currentUser.role);
+        } else {
+             // User was deleted or error
+            logout();
+        }
     } else {
         showView('login-view');
     }
@@ -42,19 +69,20 @@ function initializeApp() {
 function handlePostLogin(role) {
     if (role === 'Employee') {
         showView('employee-view');
-        renderEmployeeHistory(); // Load initial data
-        // Ensure submission tab is active by default
-        showEmployeeTab('submission');
+        renderEmployeeHistory(); 
+        showEmployeeTab('submission'); 
     } else if (role === 'Manager' || role === 'Director' || role === 'Admin') {
         showView('manager-admin-view');
-        renderApprovalDashboard(currentUser.id); // Load pending approvals
         
         const titleElement = document.getElementById('manager-admin-title');
-        titleElement.textContent = `${role} Dashboard`;
+        titleElement.textContent = `${mockCompanies[currentUser.companyId].name} - ${role} Dashboard`;
 
-        // Only show Admin tabs if role is Admin
-        document.getElementById('nav-admin').style.display = (role === 'Admin') ? 'block' : 'none';
-        document.getElementById('nav-rules').style.display = (role === 'Admin') ? 'block' : 'none';
+        // Only show Admin/Rules tabs for Admin role
+        const isAdmin = (role === 'Admin');
+        document.getElementById('nav-admin').style.display = isAdmin ? 'block' : 'none';
+        document.getElementById('nav-rules').style.display = isAdmin ? 'block' : 'none';
+        
+        showManagerTab('approvals');
     } else {
         showView('login-view');
     }
@@ -77,8 +105,7 @@ function showEmployeeTab(tabName) {
     tabs.forEach(tab => tab.classList.remove('active-tab'));
     document.getElementById(`employee-${tabName}`).classList.add('active-tab');
 
-    // Update sub-navigation buttons
-    document.querySelectorAll('.sub-nav button').forEach(btn => btn.classList.remove('active-nav'));
+    document.querySelectorAll('#employee-view .sub-nav button').forEach(btn => btn.classList.remove('active-nav'));
     document.getElementById(`tab-${tabName}`).classList.add('active-nav');
 
     if (tabName === 'history') {
@@ -89,9 +116,12 @@ function showEmployeeTab(tabName) {
 function showManagerTab(tabName) {
     const tabs = document.querySelectorAll('.manager-tab');
     tabs.forEach(tab => tab.classList.remove('active-tab'));
-    document.getElementById(`manager-admin-view`).querySelector(`#${tabName === 'approvals' ? 'manager-approvals' : tabName === 'users' ? 'admin-users' : 'admin-rules'}`).classList.add('active-tab');
+    
+    const tabId = tabName === 'approvals' ? 'manager-approvals' : 
+                  tabName === 'users' ? 'admin-users' : 'admin-rules';
+                  
+    document.getElementById(tabId).classList.add('active-tab');
 
-    // Update sub-navigation buttons
     document.querySelectorAll('#manager-admin-view .sub-nav button').forEach(btn => btn.classList.remove('active-nav'));
     document.getElementById(`nav-${tabName}`).classList.add('active-nav');
     
@@ -107,7 +137,8 @@ function showManagerTab(tabName) {
 
 // --- General Utility ---
 
-// Simple alert function to provide user feedback
 function displayMessage(message, type = 'success') {
-    alert(`${type.toUpperCase()}: ${message}`);
+    console.log(`${type.toUpperCase()}: ${message}`);
+    // Use a simple alert for critical feedback in the hackathon demo
+    alert(`${type.toUpperCase()}: ${message}`); 
 }
