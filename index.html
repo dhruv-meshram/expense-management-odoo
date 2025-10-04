@@ -23,7 +23,7 @@
             <h2>Sign In to Your Account</h2>
             <form id="login-form" onsubmit="handleLogin(event)">
                 <label for="username">Work Email:</label>
-                <input type="email" id="username" required value="admin@company.com">
+                <input type="email" id="username" required value="employee@company.com">
                 <label for="password">Password:</label>
                 <input type="password" id="password" required value="password">
                 <button type="submit" class="primary-btn">Login</button>
@@ -32,7 +32,7 @@
                 </p>
             </form>
             <p class="quick-test-info">
-                Test Accounts: <span class="status-Approved">admin@company.com</span> (Password: password), etc.
+                Test Accounts: <span class="status-Approved">employee@company.com</span>, <span class="status-Approved">manager@company.com</span> (Password: password for all)
             </p>
         </section>
 
@@ -140,7 +140,13 @@
                     <select id="expense-currency" required onchange="updateAmountDisplay()">
                         <option value="">Loading...</option>
                     </select>
+                    
+                    <label for="expense-date">Date:</label>
+                    <input type="date" id="expense-date" required>
 
+                    <label for="expense-desc">Description of Bill:</label>
+                    <textarea id="expense-desc" required placeholder="e.g., Client lunch for project X discussion"></textarea>
+                    
                     <label for="expense-category">Category:</label>
                     <select id="expense-category" required>
                         <option value="">Select Category</option>
@@ -149,31 +155,21 @@
                         <option value="supplies">Office Supplies</option>
                     </select>
 
-                    <label for="expense-date">Date:</label>
-                    <input type="date" id="expense-date" required>
-
-                    <label for="expense-desc">Description:</label>
-                    <textarea id="expense-desc" required></textarea>
+                    <label for="paid-by">Paid By:</label>
+                    <select id="paid-by" required>
+                        <option value="Self">Self</option>
+                        <option value="Company Card">Company Card</option>
+                    </select>
+                    
+                    <label for="expense-remarks">Remarks (Optional):</label>
+                    <textarea id="expense-remarks" placeholder="Any specific remarks or context for the approver"></textarea>
                                         
                     <button type="submit" class="primary-btn submit-lg">Submit Expense Claim</button>
                 </form>
             </div>
 
             <div id="employee-history" class="employee-tab tab-content">
-                <h3>My Expense History</h3>
-                <table id="history-table" class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        </tbody>
-                </table>
-            </div>
+                </div>
         </section>
 
         <section id="manager-admin-view" class="view">
@@ -185,28 +181,12 @@
             </nav>
             
             <div id="manager-approvals" class="manager-tab tab-content active-tab">
-                <h3>Expenses Waiting for Your Review</h3>
-                <table id="approval-table" class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Employee</th>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Amount (Local Currency)</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        </tbody>
-                </table>
-            </div>
+                </div>
 
             <div id="admin-users" class="manager-tab tab-content">
-                <h3>User Management</h3>
                 </div>
 
             <div id="admin-rules" class="manager-tab tab-content">
-                <h3>Approval Workflow Configuration (High-Value Feature)</h3>
                 </div>
         </section>
 

@@ -1,11 +1,10 @@
 /**
  * MOCK DATA - REVISED
- * Includes multiple companies and tracks created users/passwords.
- * Simulates backend for company creation, user management, and expenses.
+ * Includes multi-company support, user management, and enhanced expense structure.
  */
 
 // Global state to track companies and users
-let mockCompanies = {}; // { 'companyId': { name, currency, users: [] } }
+let mockCompanies = {}; 
 let currentCompanyId = null;
 
 // Initial state for quick testing (the old setup)
@@ -30,14 +29,16 @@ let mockExpenses = [
         id: 'EXP-001', 
         companyId: initialCompanyId,
         employeeId: 201, 
-        employeeName: 'Employee Jones (Employee)',
+        employeeName: 'Employee Jones',
         amount: 55.00, 
         currency: 'USD',
-        localAmount: 55.00, // Mock Company Currency: USD
+        localAmount: 55.00, 
         category: 'Food',
         description: 'Team lunch for project review',
+        paidBy: 'Self',
+        remarks: 'Discussed Q4 plans.', 
         date: '2025-10-01',
-        status: 'Pending', // Current step is PENDING Manager (102)
+        status: 'Pending', 
         approvalChain: [
             { approverId: 102, role: 'Manager', status: 'Pending', sequence: 1 },
             { approverId: 103, role: 'Director', status: 'Not Started', sequence: 2 }
@@ -47,12 +48,14 @@ let mockExpenses = [
         id: 'EXP-002', 
         companyId: initialCompanyId,
         employeeId: 201, 
-        employeeName: 'Employee Jones (Employee)',
+        employeeName: 'Employee Jones',
         amount: 150.00, 
         currency: 'EUR',
-        localAmount: 160.00, // Mock conversion (150 EUR ≈ 160 USD)
+        localAmount: 160.00, 
         category: 'Travel',
         description: 'Train ticket to client site',
+        paidBy: 'Company Card',
+        remarks: 'Used train due to flight cost.', 
         date: '2025-09-28',
         status: 'Approved',
         approvalChain: [
@@ -137,7 +140,7 @@ const addNewUser = (companyId, name, email, role, managerId, password) => {
 };
 
 
-// --- Expense Mock Functions (Use currentCompanyId for context) ---
+// --- Expense Mock Functions ---
 
 const fetchCompanyCurrency = () => {
     return mockCompanies[currentCompanyId] ? mockCompanies[currentCompanyId].currency : 'USD';
@@ -147,14 +150,11 @@ const fetchUserExpenses = (userId) => {
     return mockExpenses.filter(exp => exp.employeeId === userId && exp.companyId === currentCompanyId);
 };
 
-// Gets expenses where the current user is the next required approver
 const fetchPendingApprovals = (userId) => {
     return mockExpenses.filter(exp => {
         if (exp.companyId !== currentCompanyId) return false;
         
-        // Find the next step in the approval chain for this expense
         const nextStep = exp.approvalChain.find(step => step.status === 'Pending');
-        // Check if the current user is the approver for that step
         return nextStep && nextStep.approverId === userId;
     });
 };
@@ -163,27 +163,21 @@ const updateExpenseStatus = (expenseId, approverId, status, comment = null) => {
     const expense = mockExpenses.find(exp => exp.id === expenseId && exp.companyId === currentCompanyId);
     if (!expense) return false;
 
-    // Find the current pending step
     const currentStepIndex = expense.approvalChain.findIndex(step => step.status === 'Pending' && step.approverId === approverId);
 
     if (currentStepIndex !== -1) {
-        // 1. Update the current step
         expense.approvalChain[currentStepIndex].status = status;
         expense.approvalChain[currentStepIndex].comment = comment;
 
-        // 2. If APPROVED, check the next step (Sequential Flow Mock)
         if (status === 'Approved') {
             const nextStep = expense.approvalChain[currentStepIndex + 1];
             if (nextStep) {
-                // Move to the next approver
                 nextStep.status = 'Pending';
                 expense.status = 'Pending';
             } else {
-                // Final approval
                 expense.status = 'Approved';
             }
         } else {
-            // If REJECTED, the expense is fully rejected
             expense.status = 'Rejected';
         }
         
@@ -197,7 +191,6 @@ const createExpense = (expenseData) => {
     const newId = `EXP-${String(mockExpenses.length + 1).padStart(3, '0')}`;
     
     // MOCK: Simplify currency conversion for hackathon. 
-    // USD/EUR is 1.07. All others are 1.0.
     const companyCurrency = fetchCompanyCurrency();
     let mockConversionRate = 1.0;
     if (expenseData.currency === 'EUR' && companyCurrency === 'USD') {
@@ -207,15 +200,18 @@ const createExpense = (expenseData) => {
     }
     const localAmount = expenseData.amount * mockConversionRate;
 
-    // Default flow: Manager (ID 102) then Director (ID 103)
+    const companyUsers = fetchCompanyUsers(currentCompanyId);
+    const employeeManager = companyUsers.find(u => u.id === expenseData.employeeId)?.managerId;
+    const initialApproverId = employeeManager || 102; // Fallback
+
     const newExpense = {
         ...expenseData,
         id: newId,
-        companyId: currentCompanyId, // Link to the current company
+        companyId: currentCompanyId,
         localAmount: localAmount, 
         status: 'Pending',
         approvalChain: [
-            { approverId: expenseData.managerId || 102, role: 'Manager', status: 'Pending', sequence: 1 }, // Use employee's manager
+            { approverId: initialApproverId, role: 'Manager', status: 'Pending', sequence: 1 },
             { approverId: 103, role: 'Director', status: 'Not Started', sequence: 2 }
         ]
     };

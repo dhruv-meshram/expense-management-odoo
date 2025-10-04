@@ -100,9 +100,30 @@ function createUser(event) {
 
 function renderApprovalDashboard(approverId) {
     const pendingExpenses = fetchPendingApprovals(approverId);
+    const tableContainer = document.querySelector('#manager-approvals');
     const tableBody = document.querySelector('#approval-table tbody');
     tableBody.innerHTML = ''; 
     const companyCurrency = fetchCompanyCurrency();
+
+    // Re-create the dashboard structure if needed (ensure table is present)
+    if (!document.getElementById('approval-table')) {
+        tableContainer.innerHTML = `
+            <h3>Expenses Waiting for Your Review</h3>
+            <table id="approval-table" class="data-table">
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount (Local Currency)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        `;
+    }
+
 
     if (pendingExpenses.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="5">No expenses waiting for your ${currentUser.role} approval.</td></tr>`;
@@ -149,7 +170,9 @@ function openApprovalModal(expenseId) {
         <p><strong>Submitted Amount:</strong> ${expense.amount} ${expense.currency}</p>
         <p><strong>Local Amount:</strong> ${expense.localAmount.toFixed(2)} ${companyCurrency}</p>
         <p><strong>Category:</strong> ${expense.category}</p>
+        <p><strong>Paid By:</strong> ${expense.paidBy}</p>
         <p><strong>Description:</strong> ${expense.description}</p>
+        <p><strong>Remarks:</strong> ${expense.remarks || 'N/A'}</p>
         <p style="font-weight: bold; margin-top: 10px;">Reviewer Role: ${currentUser.role}</p>
     `;
     

@@ -55,13 +55,11 @@ function handleAdminSignup(event) {
     
     const [countryName, currencyCode] = countryData.split('|');
 
-    // MOCK: Check if user already exists across all companies
     if (fetchUserByEmail(adminEmail)) {
          displayMessage('This email is already registered. Please login or use a different email.', 'error');
          return;
     }
     
-    // MOCK API CALL: Create Company and Admin
     const newAdmin = createCompanyAndAdmin(companyName, adminEmail, adminPassword, currencyCode, countryName);
     
     if (newAdmin) {
@@ -77,7 +75,7 @@ function handleAdminSignup(event) {
 }
 
 
-// --- User Login ---
+// --- User Login (THE FUNCTION CALLED ON BUTTON CLICK) ---
 
 function handleLogin(event) {
     event.preventDefault(); 
@@ -90,13 +88,14 @@ function handleLogin(event) {
         return;
     }
     
-    // This call also sets the currentCompanyId context in mock-data.js
+    // Uses fetchUserByEmail from mock-data.js
     const user = fetchUserByEmail(email); 
 
     if (user && user.password === password) { 
         currentUser = user; 
         sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
         
+        // Uses global functions from app.js
         updateHeader();
         handlePostLogin(user.role);
         

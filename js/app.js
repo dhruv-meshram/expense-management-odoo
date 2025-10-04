@@ -14,11 +14,12 @@ function showView(viewId) {
             
             // --- New View Logic ---
             if (viewId === 'signup-view') {
+                // Ensure auth.js function is called
                 loadCountriesForSignup(); 
             }
             if (viewId === 'admin-setup-view') {
-                // Ensure only admin can access this view
                 if (currentUser && currentUser.role === 'Admin') {
+                    // Ensure manager.js function is called
                     renderAdminSetupView();
                 } else {
                     displayMessage('Access Denied: Admin Setup only.', 'error');
@@ -35,7 +36,7 @@ function updateHeader() {
     const userInfoDiv = document.getElementById('user-info');
     const roleDisplay = document.getElementById('user-role-display');
 
-    if (currentUser) {
+    if (currentUser && mockCompanies[currentUser.companyId]) {
         userInfoDiv.style.display = 'flex';
         roleDisplay.textContent = `${currentUser.role} | ${mockCompanies[currentUser.companyId].name}`;
     } else {
@@ -53,8 +54,9 @@ function initializeApp() {
         const reloadedUser = fetchUserByEmail(currentUser.email); 
         
         if (reloadedUser) {
-            currentUser = reloadedUser; // Update with full context
+            currentUser = reloadedUser; 
             updateHeader();
+            // Call post login handler
             handlePostLogin(currentUser.role);
         } else {
              // User was deleted or error
@@ -69,6 +71,7 @@ function initializeApp() {
 function handlePostLogin(role) {
     if (role === 'Employee') {
         showView('employee-view');
+        // Ensure employee.js functions are called
         renderEmployeeHistory(); 
         showEmployeeTab('submission'); 
     } else if (role === 'Manager' || role === 'Director' || role === 'Admin') {
@@ -77,11 +80,11 @@ function handlePostLogin(role) {
         const titleElement = document.getElementById('manager-admin-title');
         titleElement.textContent = `${mockCompanies[currentUser.companyId].name} - ${role} Dashboard`;
 
-        // Only show Admin/Rules tabs for Admin role
         const isAdmin = (role === 'Admin');
         document.getElementById('nav-admin').style.display = isAdmin ? 'block' : 'none';
         document.getElementById('nav-rules').style.display = isAdmin ? 'block' : 'none';
         
+        // Ensure manager.js functions are called
         showManagerTab('approvals');
     } else {
         showView('login-view');
@@ -109,6 +112,7 @@ function showEmployeeTab(tabName) {
     document.getElementById(`tab-${tabName}`).classList.add('active-nav');
 
     if (tabName === 'history') {
+        // Ensure employee.js function is called
         renderEmployeeHistory();
     }
 }
@@ -125,8 +129,8 @@ function showManagerTab(tabName) {
     document.querySelectorAll('#manager-admin-view .sub-nav button').forEach(btn => btn.classList.remove('active-nav'));
     document.getElementById(`nav-${tabName}`).classList.add('active-nav');
     
-    // Call specific render functions
     if (tabName === 'approvals') {
+        // Ensure manager.js function is called
         renderApprovalDashboard(currentUser.id);
     } else if (tabName === 'users') {
         renderUserManagement();
@@ -135,7 +139,7 @@ function showManagerTab(tabName) {
     }
 }
 
-// --- General Utility ---
+// --- General Utility (Called by all other files) ---
 
 function displayMessage(message, type = 'success') {
     console.log(`${type.toUpperCase()}: ${message}`);
