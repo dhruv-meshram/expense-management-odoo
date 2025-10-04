@@ -1,43 +1,64 @@
 /* public/assets/styles/main.css */
 
-/* --- 1. Global Variables & Reset --- */
+/*
+|--------------------------------------------------------------------------
+| 1. Global Variables & Reset (UX Enhancement: Clearer variables, radius, shadow)
+|--------------------------------------------------------------------------
+*/
 :root {
-    --primary-color: #007bff; /* Odoo blue-like */
-    --secondary-color: #6c757d; /* Gray */
-    --success-color: #28a745;
-    --danger-color: #dc3545;
-    --warning-color: #ffc107;
-    --background-color: #f8f9fa;
-    --text-color: #343a40;
-    --border-color: #dee2e6;
+    /* Color Palette */
+    --color-primary: #007BFF; /* Trustworthy Blue */
+    --color-secondary: #6c757d; /* Neutral Gray */
+    --color-success: #28A745;
+    --color-danger: #DC3545;
+    --color-warning: #FFC107;
+    
+    --color-background: #F8F9FA; /* Soft App Background */
+    --color-surface: #FFFFFF; /* Card/Modal Background */
+    --color-text: #343A40; /* High Contrast Text */
+    --color-border: #EAECEF; /* Lighter, subtle borders */
+
+    /* Typography */
+    --font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    /* Spacing & Design */
+    --spacing-unit: 8px;
     --header-height: 60px;
+    --border-radius: 6px; /* Subtle rounding for modern look */
+    --box-shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft lift for key elements */
 }
 
-* {
+/* Base Reset */
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-family-base);
+    font-size: 16px;
     line-height: 1.6;
-    color: var(--text-color);
-    background-color: var(--background-color);
-    padding-top: var(--header-height); /* Space for fixed header */
+    color: var(--color-text);
+    background-color: var(--color-background);
+    padding-top: var(--header-height);
+    -webkit-font-smoothing: antialiased; /* Better text rendering */
 }
 
-/* --- 2. Typography & Form Elements --- */
+/* --- 2. Typography & Form Elements (UX Enhancement: Cleaner fields, better focus) --- */
 h1, h2, h3, h4, h5 {
-    margin-bottom: 1rem;
+    margin-bottom: calc(var(--spacing-unit) * 3); /* Increased spacing */
     color: #212529;
+    line-height: 1.2;
+    font-weight: 600;
 }
 
 label {
     display: block;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+    margin-top: calc(var(--spacing-unit) * 2);
+    margin-bottom: var(--spacing-unit);
+    font-weight: 500; /* Slightly less bold */
+    color: #555;
 }
 
 input[type="text"],
@@ -48,58 +69,105 @@ input[type="date"],
 select,
 textarea {
     width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
+    padding: 12px; /* Increased padding */
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
     font-size: 1rem;
-    transition: border-color 0.2s;
+    transition: all 0.2s; /* Smoother transitions */
+    background-color: var(--color-surface);
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    border-color: var(--primary-color);
+    border-color: var(--color-primary);
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    /* Softened box-shadow */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); 
 }
 
 textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 120px;
 }
 
-
-/* --- 3. Layout and Header --- */
+/* --- 3. Layout and Header (UX Enhancement: Better shadow, cleaner design) --- */
 #main-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: var(--header-height);
-    background-color: #ffffff;
-    border-bottom: 1px solid var(--border-color);
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 0 3rem; /* Increased padding */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Slightly cleaner header shadow */
     z-index: 1000;
 }
 
 #main-header h1 {
     margin: 0;
     font-size: 1.5rem;
-    color: var(--primary-color);
+    color: var(--color-primary);
+    font-weight: 700;
 }
 
 #app-container {
-    padding: 2rem;
-    max-width: 1200px;
+    padding: 3rem; /* Increased overall container padding */
+    max-width: 1280px; /* Slightly wider max-width */
     margin: 0 auto;
 }
 
-/* --- 4. Utility Classes --- */
+/* --- 4. Component Styles: Buttons (NEW - Essential for UX) --- */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease-in-out;
+    text-transform: capitalize;
+    letter-spacing: 0.2px;
+}
+
+.btn-primary {
+    color: var(--color-surface);
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-success {
+    color: var(--color-surface);
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+}
+.btn-success:hover {
+    background-color: #1e7e34;
+    border-color: #1e7e34;
+}
+
+/* --- 5. Component Styles: Cards (NEW - For data visualization) --- */
+.card {
+    background-color: var(--color-surface);
+    border-radius: calc(var(--border-radius) + 2px); /* Slightly more rounded */
+    box-shadow: var(--box-shadow-light);
+    padding: calc(var(--spacing-unit) * 4);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    border: 1px solid var(--color-border);
+}
+
+/* --- 6. Utility Classes & Tab Navigation (UX Enhancement: Cleaner tabs) --- */
 .view {
     display: none;
     padding: 1rem 0;
@@ -110,36 +178,41 @@ textarea {
 }
 
 .view-title {
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
+    /* Use h1/h2 instead, but keep this for compatibility */
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-unit);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    font-size: 1.75rem;
+    font-weight: 600;
 }
 
-/* --- 5. Navigation --- */
 .sub-nav {
     display: flex;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid var(--border-color);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    border-bottom: 1px solid var(--color-border);
+    overflow-x: auto; /* Allow horizontal scrolling on small screens */
 }
 
 .sub-nav button {
     background: none;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 20px; /* Increased vertical padding */
     cursor: pointer;
     font-size: 1rem;
-    color: var(--secondary-color);
+    color: var(--color-secondary);
     border-bottom: 3px solid transparent;
     transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .sub-nav button:hover {
-    color: var(--primary-color);
+    color: var(--color-primary);
+    border-color: rgba(0, 123, 255, 0.3); /* Subtle hint on hover */
 }
 
 .sub-nav button.active-nav {
-    color: var(--primary-color);
-    border-bottom: 3px solid var(--primary-color);
+    color: var(--color-primary);
+    border-bottom: 3px solid var(--color-primary);
     font-weight: 600;
 }
 
@@ -151,7 +224,13 @@ textarea {
     display: block;
 }
 
-/* --- 6. Responsive Design --- */
+/* --- 7. Responsive Design (Retained and slightly improved) --- */
+@media (max-width: 992px) {
+    #app-container {
+        padding: 2rem;
+    }
+}
+
 @media (max-width: 768px) {
     #main-header {
         padding: 0 1rem;
