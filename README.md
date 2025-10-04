@@ -1,6 +1,5 @@
 ## Contributors
 - Vedant Bondekar
 - Dhruv Meshram
-- Pratham Wala
+- Pratham Wala merge check
 - Saujas Seth
-## Topic
