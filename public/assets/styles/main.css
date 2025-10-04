@@ -6,7 +6,6 @@
 |--------------------------------------------------------------------------
 */
 :root {
-<<<<<<< HEAD
     /* Catppuccin Mocha Color Palette */
     --color-primary: #cba6f7; /* Mauve */
     --color-secondary: #7f849c; /* Overlay1 */
@@ -18,24 +17,6 @@
     --color-surface: #181825; /* Mantle */
     --color-text: #cdd6f4; /* Text */
     --color-border: #313244; /* Surface0 */
-=======
-    /* Color Palette - LIGHT THEME (Default) */
-    --color-primary: #007BFF; /* Trustworthy Blue */
-    --color-secondary: #6c757d; /* Neutral Gray */
-    --color-success: #28A745;
-    --color-danger: #DC3545;
-    --color-warning: #FFC107;
-    
-    --color-background: #F8F9FA; /* Soft App Background */
-    --color-surface: #FFFFFF; /* Card/Modal Background */
-    --color-text: #343A40; /* High Contrast Text */
-    --color-heading: #212529; /* Darker heading text */
-    --color-label: #555; /* Label text */
-    --color-border: #EAECEF; /* Lighter, subtle borders */
-    
-    /* NEW: Surface color for subtle hovers/active states in LIGHT mode */
-    --color-surface-hover: #F0F0F0; 
->>>>>>> 25c203d06f1197db314612a61c75a02f97d5bb88
 
     /* Typography */
     --font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -47,7 +28,6 @@
     --box-shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft lift for key elements */
 }
 
-<<<<<<< HEAD
 /* Catppuccin Latte (Light Theme) */
 body[data-theme='light'] {
     --color-primary: #1e66f5;   /* Blue */
@@ -60,33 +40,6 @@ body[data-theme='light'] {
     --color-surface: #ffffff; /* Use white for cards */
     --color-text: #4c4f69;     /* Text */
     --color-border: #ccd0da;   /* Surface0 */
-=======
-/*
-|--------------------------------------------------------------------------
-| 1.1. Dark Theme Overrides
-|--------------------------------------------------------------------------
-*/
-.dark-theme {
-    /* Color Palette - DARK THEME */
-    --color-primary: #5BC0DE; /* Lighter Blue */
-    --color-secondary: #ADB5BD; /* Lighter Gray */
-    --color-success: #2ECC71;
-    --color-danger: #E74C3C;
-    --color-warning: #F1C40F;
-
-    --color-background: #121212; /* Very dark background */
-    --color-surface: #1E1E1E; /* Dark Card/Modal Background */
-    --color-text: #F0F0F0; /* Light text */
-    --color-heading: #FFFFFF; /* White heading text */
-    --color-label: #BBBBBB; /* Lighter label text */
-    --color-border: #444444; /* Darker borders */
-    
-    /* FIX: Darker hover color to provide contrast against light text */
-    --color-surface-hover: #3a3a3a; 
-    
-    /* Adjust shadow for dark theme visibility (Optional: often set to none or subtle) */
-    --box-shadow-light: 0 4px 12px rgba(0, 0, 0, 0.5);
->>>>>>> 25c203d06f1197db314612a61c75a02f97d5bb88
 }
 
 
@@ -101,23 +54,16 @@ body {
     font-family: var(--font-family-base);
     font-size: 16px;
     line-height: 1.6;
-    color: var(--color-text); /* Uses theme color */
-    background-color: var(--color-background); /* Uses theme color */
+    color: var(--color-text);
+    background-color: var(--color-background);
     padding-top: var(--header-height);
-    -webkit-font-smoothing: antialiased;
-    /* Smooth transition for theme change */
-    transition: background-color 0.3s, color 0.3s;
+    -webkit-font-smoothing: antialiased; /* Better text rendering */
 }
 
 /* --- 2. Typography & Form Elements --- */
 h1, h2, h3, h4, h5 {
-<<<<<<< HEAD
     margin-bottom: calc(var(--spacing-unit) * 3); /* Increased spacing */
     color: var(--color-text);
-=======
-    margin-bottom: calc(var(--spacing-unit) * 3);
-    color: var(--color-heading); /* Uses theme color */
->>>>>>> 25c203d06f1197db314612a61c75a02f97d5bb88
     line-height: 1.2;
     font-weight: 600;
 }
@@ -126,13 +72,8 @@ label {
     display: block;
     margin-top: calc(var(--spacing-unit) * 2);
     margin-bottom: var(--spacing-unit);
-<<<<<<< HEAD
     font-weight: 500; /* Slightly less bold */
     color: var(--color-text);
-=======
-    font-weight: 500;
-    color: var(--color-label); /* Uses theme color */
->>>>>>> 25c203d06f1197db314612a61c75a02f97d5bb88
 }
 
 input[type="text"],
@@ -143,20 +84,14 @@ input[type="date"],
 select,
 textarea {
     width: 100%;
-    padding: 12px;
+    padding: 12px; /* Increased padding */
     margin-bottom: calc(var(--spacing-unit) * 3);
-    border: 1px solid var(--color-border); /* Uses theme color */
+    border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
     font-size: 1rem;
-<<<<<<< HEAD
     transition: all 0.2s; /* Smoother transitions */
     background-color: var(--color-surface);
     color: var(--color-text);
-=======
-    transition: all 0.2s;
-    background-color: var(--color-surface); /* Uses theme color */
-    color: var(--color-text); /* Uses theme color */
->>>>>>> 25c203d06f1197db314612a61c75a02f97d5bb88
 }
 
 input:focus,
@@ -164,7 +99,6 @@ select:focus,
 textarea:focus {
     border-color: var(--color-primary);
     outline: none;
-<<<<<<< HEAD
     /* Softened box-shadow */
     box-shadow: 0 0 0 3px rgba(203, 166, 247, 0.15); 
 }
@@ -173,15 +107,6 @@ body[data-theme='light'] input:focus,
 body[data-theme='light'] select:focus,
 body[data-theme='light'] textarea:focus {
     box-shadow: 0 0 0 3px rgba(30, 102, 245, 0.15);
-=======
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); 
->>>>>>> 25c203d06f1197db314612a61c75a02f97d5bb88
-}
-.dark-theme input:focus,
-.dark-theme select:focus,
-.dark-theme textarea:focus {
-    /* Adjust focus shadow for dark theme visibility */
-    box-shadow: 0 0 0 3px rgba(91, 192, 222, 0.3);
 }
 
 textarea {
@@ -196,13 +121,13 @@ textarea {
     left: 0;
     width: 100%;
     height: var(--header-height);
-    background-color: var(--color-surface); /* Uses theme color */
-    border-bottom: 1px solid var(--color-border); /* Uses theme color */
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 3rem;
-    box-shadow: var(--box-shadow-light); /* Uses theme shadow variable */
+    padding: 0 3rem; /* Increased padding */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Slightly cleaner header shadow */
     z-index: 1000;
 }
 
@@ -213,41 +138,9 @@ textarea {
     font-weight: 700;
 }
 
-#user-info {
-    display: flex;
-    align-items: center;
-}
-
-/* Theme Toggle Button Specific Style */
-.btn-theme-toggle {
-    background-color: var(--color-secondary);
-    color: var(--color-surface); 
-    padding: 8px 12px;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 0.9rem;
-    margin-right: 15px;
-    transition: all 0.2s;
-}
-
-.btn-theme-toggle:hover {
-    background-color: #5a6268; 
-}
-
-.dark-theme .btn-theme-toggle {
-    background-color: var(--color-primary);
-    color: var(--color-text);
-}
-
-.dark-theme .btn-theme-toggle:hover {
-    background-color: #3e8ca8;
-}
-
-
 #app-container {
-    padding: 3rem;
-    max-width: 1280px;
+    padding: 3rem; /* Increased overall container padding */
+    max-width: 1280px; /* Slightly wider max-width */
     margin: 0 auto;
 }
 
@@ -275,11 +168,6 @@ textarea {
     background-color: #b48ead;
     border-color: #b48ead;
 }
-.dark-theme .btn-primary:hover {
-    background-color: #3e8ca8;
-    border-color: #3e8ca8;
-}
-
 
 .btn-success {
     color: var(--color-background);
@@ -291,46 +179,17 @@ textarea {
     border-color: #8cc084;
 }
 
-<<<<<<< HEAD
 /* --- 5. Component Styles: Cards --- */
-=======
-.btn-danger {
-    color: var(--color-surface);
-    background-color: var(--color-danger);
-    border-color: var(--color-danger);
-}
-.btn-danger:hover {
-    background-color: #a71d2a;
-    border-color: #a71d2a;
-}
-
-
-/* --- 5. Component Styles: Cards (NEW - For data visualization) --- */
->>>>>>> 25c203d06f1197db314612a61c75a02f97d5bb88
 .card {
-    background-color: var(--color-surface); /* Uses theme color */
-    border-radius: calc(var(--border-radius) + 2px);
-    box-shadow: var(--box-shadow-light); /* Uses theme shadow variable */
+    background-color: var(--color-surface);
+    border-radius: calc(var(--border-radius) + 2px); /* Slightly more rounded */
+    box-shadow: var(--box-shadow-light);
     padding: calc(var(--spacing-unit) * 4);
     margin-bottom: calc(var(--spacing-unit) * 4);
-    border: 1px solid var(--color-border); /* Uses theme color */
-    /* Add transition for smooth card background change */
-    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+    border: 1px solid var(--color-border);
 }
 
-<<<<<<< HEAD
 /* --- 6. Utility Classes & Tab Navigation --- */
-=======
-/* FIX: Generic Table Row Hover Style */
-.data-table tbody tr:hover {
-    /* FIX: Use the new hover variable which is defined differently in dark mode */
-    background-color: var(--color-surface-hover); 
-    cursor: pointer;
-}
-
-
-/* --- 6. Utility Classes & Tab Navigation (UX Enhancement: Cleaner tabs) --- */
->>>>>>> 25c203d06f1197db314612a61c75a02f97d5bb88
 .view {
     display: none;
     padding: 1rem 0;
@@ -342,7 +201,7 @@ textarea {
 
 .view-title {
     /* Use h1/h2 instead, but keep this for compatibility */
-    border-bottom: 1px solid var(--color-border); /* Uses theme color */
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: var(--spacing-unit);
     margin-bottom: calc(var(--spacing-unit) * 4);
     font-size: 1.75rem;
@@ -352,17 +211,17 @@ textarea {
 .sub-nav {
     display: flex;
     margin-bottom: calc(var(--spacing-unit) * 4);
-    border-bottom: 1px solid var(--color-border); /* Uses theme color */
-    overflow-x: auto;
+    border-bottom: 1px solid var(--color-border);
+    overflow-x: auto; /* Allow horizontal scrolling on small screens */
 }
 
 .sub-nav button {
     background: none;
     border: none;
-    padding: 12px 20px;
+    padding: 12px 20px; /* Increased vertical padding */
     cursor: pointer;
     font-size: 1rem;
-    color: var(--color-secondary); /* Uses theme color */
+    color: var(--color-secondary);
     border-bottom: 3px solid transparent;
     transition: all 0.2s;
     white-space: nowrap;
@@ -370,21 +229,11 @@ textarea {
 
 .sub-nav button:hover {
     color: var(--color-primary);
-<<<<<<< HEAD
     border-color: rgba(203, 166, 247, 0.3); /* Subtle hint on hover */
 }
 
 body[data-theme='light'] .sub-nav button:hover {
      border-color: rgba(30, 102, 245, 0.3);
-=======
-    /* OPTIONAL FIX: Change background color on hover for better visibility
-    background-color: var(--color-surface-hover);
-    border-color: transparent; */
-    border-color: rgba(0, 123, 255, 0.3);
-}
-.dark-theme .sub-nav button:hover {
-    border-color: rgba(91, 192, 222, 0.3); /* Adjust hover color for dark theme primary */
->>>>>>> 25c203d06f1197db314612a61c75a02f97d5bb88
 }
 
 .sub-nav button.active-nav {
